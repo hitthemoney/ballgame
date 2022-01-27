@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Ball Game</title>
+        <script src="js/index.js" defer type="module"></script>
+        <link rel="stylesheet" href="css/main.css" />
+    </head>
+    <body>
+        <canvas id="canvas"></canvas>
+
+        <div id="gameOver" style="opacity: 0;" class="centeredDiv">            
+            <h1 class="centeredTitle">
+                Game Over!
+            </h1>
+            <p class="centeredParagraph" id="endTime"></p>
+            <p class="centeredParagraph" id="bestTime"></p>
+            <p class="centeredParagraph">
+                Press space to play again
+            </p>
+        </div>
+
+        <div id="pausedScreen" style="opacity: 0;" class="centeredDiv">            
+            <h1 class="centeredTitle">
+                Paused
+            </h1>
+            <p class="centeredParagraph">
+                Press space to resume
+            </p>
+        </div>
+
+        <div id="timer">
+            <span style="opacity: 0;" id="timerText">Score: 00:00:00</span>            
+        </div>
+
+        <div id="mainMenu" style="opacity: 1;" class="centeredDiv">
+            <h1 class="centeredTitle">
+                Ball Game
+            </h1>
+            <p class="centeredParagraph">
+                Press space to start
+            </p>
+        </div>
+    </body>
+</html>
