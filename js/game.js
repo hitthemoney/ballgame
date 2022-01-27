@@ -49,17 +49,21 @@ class Game {
             }
             if (!this.gameOver && this.playing) {
                 const walkLen = 10;
-                switch (event.key) {
+                switch (event.key.toLowerCase()) {
                     case "w":
+                    case "arrowup":
                         this.player.yQueue -= walkLen;
                         break;
                     case "s":
+                    case "arrowdown":
                         this.player.yQueue += walkLen;
                         break;
                     case "a":
+                    case "arrowleft":
                         this.player.xQueue -= walkLen;
                         break;
                     case "d":
+                    case "arrowright":
                         this.player.xQueue += walkLen;
                         break;
                 }
