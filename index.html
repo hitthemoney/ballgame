@@ -4,44 +4,65 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script
+            type="text/javascript"
+            async=""
+            src="https://www.google-analytics.com/analytics.js"
+        ></script>
+        <script
+            async=""
+            src="https://www.googletagmanager.com/gtag/js?id=UA-171494631-1"
+        ></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag("js", new Date());
+
+            gtag("config", "UA-171494631-1");
+        </script>
+        <!-- End Google Analytics -->
+
         <title>Ball Game</title>
+
+        <script async="" src="https://arc.io/widget.min.js#GC7gwk6Z"></script>
+        <meta name="description" content="A game with balls!" />
+        <meta name="keywords" content="ballgame" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="og:title" content="" />
+        <meta name="og:url" content="https://hitthemoney.com" />
+        <meta name="og:site_name" content="" />
+        <meta name="og:type" content="website" />
+
         <script src="js/index.js" defer type="module"></script>
         <link rel="stylesheet" href="css/main.css" />
     </head>
     <body>
         <canvas id="canvas"></canvas>
 
-        <div id="gameOver" style="opacity: 0;" class="centeredDiv">            
-            <h1 class="centeredTitle">
-                Game Over!
-            </h1>
+        <div id="gameOver" style="opacity: 0" class="centeredDiv">
+            <h1 class="centeredTitle">Game Over!</h1>
             <p class="centeredParagraph" id="endTime"></p>
             <p class="centeredParagraph" id="bestTime"></p>
-            <p class="centeredParagraph">
-                Press space to play again
-            </p>
+            <p class="centeredParagraph">Press space to play again</p>
         </div>
 
-        <div id="pausedScreen" style="opacity: 0;" class="centeredDiv">            
-            <h1 class="centeredTitle">
-                Paused
-            </h1>
-            <p class="centeredParagraph">
-                Press space to resume
-            </p>
+        <div id="pausedScreen" style="opacity: 0" class="centeredDiv">
+            <h1 class="centeredTitle">Paused</h1>
+            <p class="centeredParagraph">Press space to resume</p>
         </div>
 
         <div id="timer">
-            <span style="opacity: 0;" id="timerText">Score: 00:00:00</span>            
+            <span style="opacity: 0" id="timerText">Score: 00:00:00</span>
         </div>
 
-        <div id="mainMenu" style="opacity: 1;" class="centeredDiv">
-            <h1 class="centeredTitle">
-                Ball Game
-            </h1>
-            <p class="centeredParagraph">
-                Press space to start
-            </p>
+        <div id="mainMenu" style="opacity: 1" class="centeredDiv">
+            <h1 class="centeredTitle">Ball Game</h1>
+            <p class="centeredParagraph">Press space to start</p>
         </div>
     </body>
 </html>
