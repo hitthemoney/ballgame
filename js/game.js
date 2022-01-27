@@ -226,7 +226,7 @@ class Game {
         // this.togglePlay();
         this.gameOver = true;
 
-        let bestTime = parseInt(localStorage.getItem("bestTime"));
+        let bestTime = parseInt(localStorage.getItem("ballgame_highscore"));
         if (isNaN(bestTime)) {
             bestTime = this.timeMs;
         } else if (this.timeMs > bestTime) {
@@ -235,7 +235,7 @@ class Game {
 
         // console.log(this.timeMs, bestTime, this.formatTime(bestTime))
 
-        localStorage.setItem("bestTime", bestTime);
+        localStorage.setItem("ballgame_highscore", bestTime);
 
         gameOverDiv.style.opacity = "1";
         endTimeText.innerText = "Score: " + this.formatTime(this.timeMs);
