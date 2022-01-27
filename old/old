@@ -1,6 +1,0 @@
- // let timeStr = Math.floor(this.timeMs / 10).toString();
-        // while (timeStr.length < 6) {
-        //     timeStr = "0" + timeStr;
-        // }
-        // timerText.innerHTML = `${timeStr.slice(0, -4)}:${timeStr.slice(2, -2)}:${timeStr.slice(-2)}`;
-        
