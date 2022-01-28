@@ -33,6 +33,7 @@ const startGame = () => {
 window.addEventListener("keydown", (event) => {
     if (event.key === " " && !gameStarted) {
         // console.log("hi")
+        
         startGame();
     }
 });

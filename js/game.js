@@ -1,5 +1,5 @@
 import * as physics from "./physics.js";
-import { pastelColors } from "./consts.js";
+import { pastelColors, mainCharacterColor } from "./consts.js";
 
 const gameOverDiv = document.getElementById("gameOver");
 const pausedScreenDiv = document.getElementById("pausedScreen");
@@ -24,20 +24,7 @@ class Game {
 
         this.gameOverCallback = gameOverCallback;
 
-        this.player = {
-            x: canvas.width / 2,
-            y: canvas.height / 2,
-            vx: 0,
-            vy: 0,
-            m: 0.1,
-            fx: 0,
-            fy: 0,
-            r: 15,
-            isPlayer: true,
-            yQueue: 0,
-            xQueue: 0,
-            color: "#ffbc05",
-        };
+        this.player = {}
 
         this.playing = false;
         this.gameOver = false;
@@ -74,15 +61,36 @@ class Game {
                 }
             }
         });
+
+        this.animationFrameID = 0;
     }
 
     start() {
+        cancelAnimationFrame(this.animationFrameID);
+        this.frameCount = 0;
         this.frame();
         this.playing = true;
         this.gameOver = false;
         this.player.x = canvas.width / 2;
         this.player.y = canvas.height / 2;
         this.objects = [];
+
+        this.player = {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            vx: 0,
+            vy: 0,
+            m: 0.1,
+            fx: 0,
+            fy: 0,
+            r: 15,
+            isPlayer: true,
+            yQueue: 0,
+            xQueue: 0,
+            color: mainCharacterColor,
+        };
+
+        console.log(this.player, this.objects);
 
         setTimeout(() => {
             this.timeMs = 0;
@@ -102,17 +110,28 @@ class Game {
         this.objects.push({
             x: Math.random() * this.canvas.width,
             y: Math.random() * this.canvas.height,
-            vx: 0,
-            vy: 0,
-            m: 0.1,
-            fx: 0,
-            fy: 0,
+            ...this.initStartingPhysics(),
+            // vx: 0,
+            // vy: 0,
+            // m: 0.1,
+            // fx: 0,
+            // fy: 0,
             r: radius,
             isPlayer: false,
             color: pastelColors[
                 Math.floor(Math.random() * pastelColors.length)
             ],
         });
+    }
+
+    initStartingPhysics() {
+        return { 
+            vx: 1 * Math.random(), 
+            vy: 1 * Math.random(), 
+            m: 0.1, 
+            fx: 0, 
+            fy: 0 
+        };
     }
 
     togglePlay() {
@@ -159,7 +178,8 @@ class Game {
         if (this.player.yQueue > 0) {
             this.player.y += moveLen;
             if (this.player.y + 15 >= this.canvas.height) {
-                this.player.y -= moveLen;
+                this.player.yQueue = -10;
+                console.log("hit bottom");
             }
             // this.player.yQueue -= 1;
         }
@@ -167,24 +187,27 @@ class Game {
         if (this.player.xQueue > 0) {
             this.player.x += moveLen;
             // console.log(this.player.x, this.canvas.width);
-            if (this.player.x + 15 >= this.canvas.width) {
-                this.player.x -= moveLen;
+            if (this.player.x + this.player.r >= this.canvas.width) {
+                console.log("right most screen");
+                this.player.xQueue = -10;
             }
             // this.player.xQueue -= 1;
         }
 
         if (this.player.yQueue < 0) {
             this.player.y -= moveLen;
-            if (this.player.y - 15 <= 0) {
-                this.player.y += moveLen;
+            if (this.player.y - this.player.r <= 0) {
+                console.log("top of screen");
+                this.player.yQueue = 10;
             }
             // this.player.yQueue += 1;
         }
 
         if (this.player.xQueue < 0) {
             this.player.x -= moveLen;
-            if (this.player.x - 15 <= 0) {
-                this.player.x += moveLen;
+            if (this.player.x - this.player.r <= 0) {
+                this.player.xQueue = 10;
+                console.log("left most screen");
             }
             // this.player.xQueue += 1;
         }
@@ -237,7 +260,7 @@ class Game {
         }
 
         this.frameCount++;
-        requestAnimationFrame(() => {
+        this.animationFrameID = requestAnimationFrame(() => {
             if (this.playing) {
                 this.frame();
             }
@@ -247,7 +270,8 @@ class Game {
     lose() {
         // this.togglePlay();
         this.gameOver = true;
-
+        // this.player.xQueue = 0;
+        // this.player.yQueue = 0;
         let bestTime = parseInt(localStorage.getItem("ballgame_highscore"));
         if (isNaN(bestTime)) {
             bestTime = this.timeMs;
