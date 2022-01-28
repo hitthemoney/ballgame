@@ -140,7 +140,7 @@ class Game {
             this.timeMs = 0;
             this.lastFrameMs = Date.now();
             timerText.style.opacity = "1";
-            for (let i = 0; i < 15; i++) {
+            for (let i = 0; i < 30; i++) {
                 this.addObject(15); // Add an object to the game
             }
         }, 1000);
