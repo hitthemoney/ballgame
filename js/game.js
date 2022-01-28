@@ -121,8 +121,14 @@ class Game {
 
     addCoin() {
         this.coins.push({
-            x: Math.min(Math.max(50, Math.random() * this.canvas.width), this.canvas.width - 50),
-            y: Math.min(Math.max(50, Math.random() * this.canvas.height), this.canvas.height - 50),
+            x: Math.min(
+                Math.max(50, Math.random() * this.canvas.width),
+                this.canvas.width - 50
+            ),
+            y: Math.min(
+                Math.max(50, Math.random() * this.canvas.height),
+                this.canvas.height - 50
+            ),
             r: 17,
             isCoin: true,
             img: coinImg,
@@ -145,6 +151,7 @@ class Game {
         });
         this.coinQueues = [];
         this.coinCount = 0;
+        coinsText.innerText = this.coinCount;
 
         this.player = {
             x: canvas.width / 2,
@@ -305,7 +312,7 @@ class Game {
             this.ctx.stroke();
         }
 
-        const modifCoins = this.coins.filter((coin) => !!coin)
+        const modifCoins = this.coins.filter((coin) => !!coin);
 
         for (let coin of modifCoins) {
             this.ctx.drawImage(
@@ -375,7 +382,9 @@ class Game {
 
         localStorage.setItem("ballgame_highscore", bestTime);
 
-        let bestScore = parseInt(localStorage.getItem("ballgame_highscore_coin"));
+        let bestScore = parseInt(
+            localStorage.getItem("ballgame_highscore_coin")
+        );
         if (isNaN(bestScore)) {
             bestScore = this.coinCount;
         } else if (this.coinCount > bestScore) {
