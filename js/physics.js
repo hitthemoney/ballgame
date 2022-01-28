@@ -16,7 +16,7 @@ const moveWithGravity = (dt, o, lockAxis = 0) => {
                 // To not do same pair twice
                 let dx = o2.x - o1.x; // Compute distance between centers of objects
                 let dy = o2.y - o1.y;
-                let r = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+                let r = Math.hypot(dx, dy);
                 if (r < 1) {
                     // To avoid division by 0
                     r = 1;
@@ -63,7 +63,7 @@ class Collision {
 const checkCollision = (o1, o2) => {
     let dx = o2.x - o1.x;
     let dy = o2.y - o1.y;
-    let d = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+    let d = Math.hypot(dx, dy);
     if (d < o1.r + o2.r) {
         return {
             collisionInfo: new Collision(o1, o2, dx, dy, d),
