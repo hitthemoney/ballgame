@@ -2,7 +2,7 @@
  * @tutorial https://towardsdatascience.com/implementing-2d-physics-in-javascript-860a7b152785
  */
 
-function moveWithGravity(dt, o, lockAxis = 0) {
+const moveWithGravity = (dt, o, lockAxis = 0) => {
     // "o" refers to Array of objects we are moving
     for (let o1 of o) {
         // Zero-out accumulator of forces for each object
@@ -60,7 +60,7 @@ class Collision {
     }
 }
 
-function checkCollision(o1, o2) {
+const checkCollision = (o1, o2) => {
     let dx = o2.x - o1.x;
     let dy = o2.y - o1.y;
     let d = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
@@ -76,7 +76,7 @@ function checkCollision(o1, o2) {
     };
 }
 
-function resolveCollisionWithBounce(info) {
+const resolveCollisionWithBounce = (info) => {
     let nx = info.dx / info.d;
     let ny = info.dy / info.d;
     let s = info.o1.r + info.o2.r - info.d;
@@ -96,7 +96,7 @@ function resolveCollisionWithBounce(info) {
     info.o2.vy += (k * ny) / info.o2.m;
 }
 
-function checkEdgeCollision(objects, canvas) {
+const checkEdgeCollision = (objects, canvas) => {
     for (let obj of objects) {
         // Detect collision with right wall.
         if (obj.x + obj.r > canvas.width) {
