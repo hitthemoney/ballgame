@@ -121,8 +121,8 @@ class Game {
 
     addCoin() {
         this.coins.push({
-            x: Math.random() * this.canvas.width,
-            y: Math.random() * this.canvas.height,
+            x: Math.min(Math.max(50, Math.random() * this.canvas.width), this.canvas.width - 50),
+            y: Math.min(Math.max(50, Math.random() * this.canvas.height), this.canvas.height - 50),
             r: 17,
             isCoin: true,
             img: coinImg,
@@ -161,7 +161,7 @@ class Game {
             color: mainCharacterColor,
         };
 
-        console.log(this.player, this.objects);
+        // console.log(this.player, this.objects);
 
         setTimeout(() => {
             this.timeMs = 0;
@@ -253,7 +253,7 @@ class Game {
             this.player.y += moveLen;
             if (this.player.y + 15 >= this.canvas.height) {
                 this.player.yQueue = -10;
-                console.log("hit bottom");
+                // console.log("hit bottom");
             }
             // this.player.yQueue -= 1;
         }
@@ -262,7 +262,7 @@ class Game {
             this.player.x += moveLen;
             // console.log(this.player.x, this.canvas.width);
             if (this.player.x + this.player.r >= this.canvas.width) {
-                console.log("right most screen");
+                // console.log("right most screen");
                 this.player.xQueue = -10;
             }
             // this.player.xQueue -= 1;
@@ -271,7 +271,7 @@ class Game {
         if (this.player.yQueue < 0) {
             this.player.y -= moveLen;
             if (this.player.y - this.player.r <= 0) {
-                console.log("top of screen");
+                // console.log("top of screen");
                 this.player.yQueue = 10;
             }
             // this.player.yQueue += 1;
@@ -281,7 +281,7 @@ class Game {
             this.player.x -= moveLen;
             if (this.player.x - this.player.r <= 0) {
                 this.player.xQueue = 10;
-                console.log("left most screen");
+                // console.log("left most screen");
             }
             // this.player.xQueue += 1;
         }
@@ -310,8 +310,8 @@ class Game {
         for (let coin of modifCoins) {
             this.ctx.drawImage(
                 coin.img,
-                coin.x,
-                coin.y,
+                coin.x - coin.r,
+                coin.y - coin.r,
                 coin.r * 2,
                 coin.r * 2
             );
@@ -409,7 +409,7 @@ class Game {
     }
 
     onCoinTouch(coin) {
-        console.log(coin);
+        // console.log(coin);
         this.coinCount += 1;
         coinsText.innerText = this.coinCount;
         delete this.coins[coin.idx];
