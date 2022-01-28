@@ -47,8 +47,10 @@
         <div id="gameOver" style="opacity: 0" class="centeredDiv">
             <h1 class="centeredTitle">Game Over!</h1>
             <p class="centeredParagraph" id="endTime"></p>
-            <p class="centeredParagraph" id="bestTime"></p>
+            <p class="centeredParagraph" id="endScore"></p>
+            <p class="centeredParagraph" id="bestScore"></p>
             <p class="centeredParagraph">Press space to play again</p>
+            <p class="centeredParagraph" style="display: none" id="bestTime"></p>
         </div>
 
         <div id="pausedScreen" style="opacity: 0" class="centeredDiv">
@@ -56,8 +58,10 @@
             <p class="centeredParagraph">Press space to resume</p>
         </div>
 
-        <div id="timer">
-            <span style="opacity: 0" id="timerText">Score: 00:00:00</span>
+        <div id="scores" style="opacity: 0" >
+            <span id="coins"><img src="img/coin.png" width="30" height="30">&nbsp;<span id="coinScore">0</span></span>
+            <br />
+            <span id="timerText">Score: 00:00:00</span>
         </div>
 
         <div id="mainMenu" style="opacity: 1;" class="centeredDiv">

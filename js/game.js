@@ -1,11 +1,15 @@
 import * as physics from "./physics.js";
-import { pastelColors, mainCharacterColor } from "./consts.js";
+import { pastelColors, mainCharacterColor, coinImg } from "./consts.js";
 
 const gameOverDiv = document.getElementById("gameOver");
 const pausedScreenDiv = document.getElementById("pausedScreen");
 const timerText = document.getElementById("timerText");
 const endTimeText = document.getElementById("endTime");
 const bestTimeText = document.getElementById("bestTime");
+const scoresDiv = document.getElementById("scores");
+const coinsText = document.getElementById("coinScore");
+const bestScoreText = document.getElementById("bestScore");
+const endScoreText = document.getElementById("endScore");
 
 class Game {
     constructor(canvas, gameOverCallback) {
@@ -28,6 +32,9 @@ class Game {
 
         this.playing = false;
         this.gameOver = false;
+
+        this.coinCount = 0;
+        coinsText.innerText = this.coinCount;
 
         window.addEventListener("keydown", (event) => {
             if (!this.gameOver && event.key === " ") {
@@ -91,9 +98,9 @@ class Game {
 
             if (touchendY > touchstartY) {
                 this.player.yQueue += walkLen;
-                this.player.xQueue = 0; 
+                this.player.xQueue = 0;
             }
-        }
+        };
 
         document.body.addEventListener("touchstart", (e) => {
             touchstartX = e.changedTouches[0].screenX;
@@ -107,6 +114,20 @@ class Game {
         });
 
         this.animationFrameID = 0;
+
+        this.coins = [];
+        this.coinQueues = [];
+    }
+
+    addCoin() {
+        this.coins.push({
+            x: Math.random() * this.canvas.width,
+            y: Math.random() * this.canvas.height,
+            r: 17,
+            isCoin: true,
+            img: coinImg,
+            idx: this.coins.length,
+        });
     }
 
     start() {
@@ -118,6 +139,12 @@ class Game {
         this.player.x = canvas.width / 2;
         this.player.y = canvas.height / 2;
         this.objects = [];
+        this.coins = [];
+        this.coinQueues.forEach((id) => {
+            clearTimeout(id);
+        });
+        this.coinQueues = [];
+        this.coinCount = 0;
 
         this.player = {
             x: canvas.width / 2,
@@ -139,7 +166,10 @@ class Game {
         setTimeout(() => {
             this.timeMs = 0;
             this.lastFrameMs = Date.now();
-            timerText.style.opacity = "1";
+            scoresDiv.style.opacity = "1";
+            for (let i = 0; i < 3; i++) {
+                this.addCoin();
+            }
             for (let i = 0; i < 30; i++) {
                 this.addObject(15); // Add an object to the game
             }
@@ -275,9 +305,21 @@ class Game {
             this.ctx.stroke();
         }
 
+        const modifCoins = this.coins.filter((coin) => !!coin)
+
+        for (let coin of modifCoins) {
+            this.ctx.drawImage(
+                coin.img,
+                coin.x,
+                coin.y,
+                coin.r * 2,
+                coin.r * 2
+            );
+        }
+
         let collisions = [];
-        for (let [i, o1] of allObjs.entries()) {
-            for (let [j, o2] of allObjs.entries()) {
+        for (let [i, o1] of [...modifCoins, ...allObjs].entries()) {
+            for (let [j, o2] of [...modifCoins, ...allObjs].entries()) {
                 if (i < j) {
                     let { collisionInfo, collided } = physics.checkCollision(
                         o1,
@@ -291,10 +333,16 @@ class Game {
         }
 
         for (let col of collisions) {
-            physics.resolveCollisionWithBounce(col);
+            if (!col.o1.isCoin && !col.o2.isCoin) {
+                physics.resolveCollisionWithBounce(col);
+            }
             if (col.o1.isPlayer || col.o2.isPlayer) {
-                if (!this.gameOver) {
-                    this.lose();
+                if (col.o1.isCoin || col.o2.isCoin) {
+                    this.onCoinTouch(col.o1.isCoin ? col.o1 : col.o2);
+                } else {
+                    if (!this.gameOver) {
+                        this.lose();
+                    }
                 }
             }
         }
@@ -327,10 +375,21 @@ class Game {
 
         localStorage.setItem("ballgame_highscore", bestTime);
 
+        let bestScore = parseInt(localStorage.getItem("ballgame_highscore_coin"));
+        if (isNaN(bestScore)) {
+            bestScore = this.coinCount;
+        } else if (this.coinCount > bestScore) {
+            bestScore = this.coinCount;
+        }
+
+        localStorage.setItem("ballgame_highscore_coin", bestScore);
+
         gameOverDiv.style.opacity = "1";
-        endTimeText.innerText = "Score: " + this.formatTime(this.timeMs);
-        bestTimeText.innerText = "Best: " + this.formatTime(bestTime);
-        timerText.style.opacity = "0";
+        endTimeText.innerText = "Time: " + this.formatTime(this.timeMs);
+        // bestTimeText.innerText = "Best: " + this.formatTime(bestTime);
+        bestScoreText.innerText = "Best: " + bestScore;
+        endScoreText.innerText = "Score: " + this.coinCount;
+        scoresDiv.style.opacity = "0";
 
         this.gameOverCallback();
 
@@ -347,6 +406,19 @@ class Game {
         // );
 
         // window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+    }
+
+    onCoinTouch(coin) {
+        console.log(coin);
+        this.coinCount += 1;
+        coinsText.innerText = this.coinCount;
+        delete this.coins[coin.idx];
+        // this.coins.splice(coin.idx, 1);
+        this.coinQueues.push(
+            setTimeout(() => {
+                this.addCoin();
+            }, 5000 * Math.random())
+        );
     }
 }
 

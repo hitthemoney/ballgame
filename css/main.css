@@ -37,14 +37,17 @@ canvas {
     font-size: 2.5em;
 }
 
-#timer {
+#scores {
     position: absolute;
     top: 10px;
     left: 10px;
+    font-size: 1.25em;
 }
 
-#timerText {
-    font-size: 1.25em;
+#coins {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 #mainMenu {

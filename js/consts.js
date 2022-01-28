@@ -2,7 +2,11 @@ const pastelColors = ["#ff9aa2", "#ffb7b2", "#ffdac1", "#e2f0cb", "#b5ead7", "#c
 
 const mainCharacterColor = "#ffbc05";
 
+const coinImg = new Image();
+coinImg.src = "img/coin.png";
+
 export {
     pastelColors,
-    mainCharacterColor
+    mainCharacterColor,
+    coinImg
 }
