@@ -42,3 +42,11 @@ canvas {
     top: 10px;
     left: 10px;
 }
+
+#mainMenu {
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.25) 100%
+    );
+}

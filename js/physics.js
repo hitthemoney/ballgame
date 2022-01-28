@@ -21,8 +21,8 @@ function moveWithGravity(dt, o, lockAxis = 0) {
                     // To avoid division by 0
                     r = 1;
                 }
-                // Compute force for this pair; k = 1000
-                let f = (1000 * o1.m * o2.m) / Math.pow(r, 2);
+                // Compute force for this pair; k = -98 is gravity constant
+                let f = (-98 * o1.m * o2.m) / Math.pow(r, 2);
                 let fx = (f * dx) / r; // Break it down into components
                 let fy = (f * dy) / r;
                 o1.fx += fx; // Accumulate for first object

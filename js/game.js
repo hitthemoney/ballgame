@@ -47,24 +47,29 @@ class Game {
                 // console.log("hi2");
                 this.togglePlay();
             }
+            // console.log(event.key.toLowerCase())
             if (!this.gameOver && this.playing) {
                 const walkLen = 10;
                 switch (event.key.toLowerCase()) {
                     case "w":
                     case "arrowup":
                         this.player.yQueue -= walkLen;
+                        this.player.xQueue = 0;
                         break;
                     case "s":
                     case "arrowdown":
                         this.player.yQueue += walkLen;
+                        this.player.xQueue = 0;
                         break;
                     case "a":
                     case "arrowleft":
                         this.player.xQueue -= walkLen;
+                        this.player.yQueue = 0;
                         break;
                     case "d":
                     case "arrowright":
                         this.player.xQueue += walkLen;
+                        this.player.yQueue = 0;
                         break;
                 }
             }
@@ -153,22 +158,35 @@ class Game {
 
         if (this.player.yQueue > 0) {
             this.player.y += moveLen;
-            this.player.yQueue -= 1;
+            if (this.player.y + 15 >= this.canvas.height) {
+                this.player.y -= moveLen;
+            }
+            // this.player.yQueue -= 1;
         }
 
         if (this.player.xQueue > 0) {
             this.player.x += moveLen;
-            this.player.xQueue -= 1;
+            // console.log(this.player.x, this.canvas.width);
+            if (this.player.x + 15 >= this.canvas.width) {
+                this.player.x -= moveLen;
+            }
+            // this.player.xQueue -= 1;
         }
 
         if (this.player.yQueue < 0) {
             this.player.y -= moveLen;
-            this.player.yQueue += 1;
+            if (this.player.y - 15 <= 0) {
+                this.player.y += moveLen;
+            }
+            // this.player.yQueue += 1;
         }
 
         if (this.player.xQueue < 0) {
             this.player.x -= moveLen;
-            this.player.xQueue += 1;
+            if (this.player.x - 15 <= 0) {
+                this.player.x += moveLen;
+            }
+            // this.player.xQueue += 1;
         }
 
         // loop through this.objects
