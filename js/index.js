@@ -37,3 +37,11 @@ window.addEventListener("keydown", (event) => {
         startGame();
     }
 });
+
+// create event handler for screen presses
+
+window.addEventListener("mousedown", (event) => {
+    if (!gameStarted) {
+        startGame();
+    }
+});

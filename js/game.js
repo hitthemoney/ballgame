@@ -24,7 +24,7 @@ class Game {
 
         this.gameOverCallback = gameOverCallback;
 
-        this.player = {}
+        this.player = {};
 
         this.playing = false;
         this.gameOver = false;
@@ -60,6 +60,50 @@ class Game {
                         break;
                 }
             }
+        });
+
+        // make event listener for up swipe gesture
+
+        let touchstartX = 0;
+        let touchendX = 0;
+        let touchstartY = 0;
+        let touchendY = 0;
+
+        const handleGesture = () => {
+            const walkLen = 10;
+
+            if (touchendX < touchstartX) {
+                this.player.xQueue -= walkLen;
+                this.player.yQueue = 0;
+                console.log("touched left");
+            }
+
+            if (touchendX > touchstartX) {
+                this.player.xQueue += walkLen;
+                this.player.yQueue = 0;
+                console.log("touched right");
+            }
+
+            if (touchendY < touchstartY) {
+                this.player.yQueue -= walkLen;
+                this.player.xQueue = 0;
+            }
+
+            if (touchendY > touchstartY) {
+                this.player.yQueue += walkLen;
+                this.player.xQueue = 0; 
+            }
+        }
+
+        document.body.addEventListener("touchstart", (e) => {
+            touchstartX = e.changedTouches[0].screenX;
+            touchstartY = e.changedTouches[0].screenY;
+        });
+
+        document.body.addEventListener("touchend", (e) => {
+            touchendX = e.changedTouches[0].screenX;
+            touchendY = e.changedTouches[0].screenY;
+            handleGesture();
         });
 
         this.animationFrameID = 0;
@@ -125,12 +169,12 @@ class Game {
     }
 
     initStartingPhysics() {
-        return { 
-            vx: 1 * Math.random(), 
-            vy: 1 * Math.random(), 
-            m: 0.1, 
-            fx: 0, 
-            fy: 0 
+        return {
+            vx: 1 * Math.random(),
+            vy: 1 * Math.random(),
+            m: 0.1,
+            fx: 0,
+            fy: 0,
         };
     }
 
