@@ -117,6 +117,7 @@ class Game {
 
         this.coins = [];
         this.coinQueues = [];
+        this.blinking = false;
     }
 
     addCoin() {
@@ -170,8 +171,9 @@ class Game {
 
         // console.log(this.player, this.objects);
 
+        this.timeMs = 0;
+
         setTimeout(() => {
-            this.timeMs = 0;
             this.lastFrameMs = Date.now();
             scoresDiv.style.opacity = "1";
             for (let i = 0; i < 3; i++) {
@@ -181,6 +183,15 @@ class Game {
                 this.addObject(15); // Add an object to the game
             }
         }, 1000);
+
+        // console.log("hello")
+        let interval = setInterval(() => {
+            // console.log("lol", this.timeMs)
+            this.blinking = !this.blinking;
+            if (this.timeMs > 3000 && !isNaN(this.timeMs)) clearInterval(interval);
+        }, 300);
+
+
         // .forEach((obj) => {
         //     obj.x = Math.random() * this.canvas.width;
         //     obj.y = Math.random() * this.canvas.height;
@@ -299,6 +310,13 @@ class Game {
 
             this.ctx.strokeStyle = "rgba(0, 0, 0, 0.25)";
             this.ctx.fillStyle = obj.color;
+
+            if (obj.isPlayer && this.blinking && (this.timeMs < 3000 || isNaN(this.timeMs))) {
+                this.ctx.globalAlpha = 0.5;
+            } else {
+                this.ctx.globalAlpha = 1;
+            }
+
             // if (obj.isPlayer) {
             //     this.ctx.fillStyle = "red";
             // } else {
@@ -346,7 +364,7 @@ class Game {
             if (col.o1.isPlayer || col.o2.isPlayer) {
                 if (col.o1.isCoin || col.o2.isCoin) {
                     this.onCoinTouch(col.o1.isCoin ? col.o1 : col.o2);
-                } else {
+                } else if (!(this.timeMs < 3000 || isNaN(this.timeMs))) {
                     if (!this.gameOver) {
                         this.lose();
                     }
