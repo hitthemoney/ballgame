@@ -43,6 +43,10 @@ canvas {
     left: 10px;
 }
 
+#timerText {
+    font-size: 1.25em;
+}
+
 #mainMenu {
     background: linear-gradient(
         to bottom,
