@@ -43,26 +43,26 @@ class Game {
             }
             // console.log(event.key.toLowerCase())
             if (!this.gameOver && this.playing) {
-                const walkLen = 10;
+                const walkLen = 2;
                 switch (event.key.toLowerCase()) {
                     case "w":
                     case "arrowup":
-                        this.player.yQueue -= walkLen;
+                        this.player.yQueue = -walkLen;
                         this.player.xQueue = 0;
                         break;
                     case "s":
                     case "arrowdown":
-                        this.player.yQueue += walkLen;
+                        this.player.yQueue = walkLen;
                         this.player.xQueue = 0;
                         break;
                     case "a":
                     case "arrowleft":
-                        this.player.xQueue -= walkLen;
+                        this.player.xQueue = -walkLen;
                         this.player.yQueue = 0;
                         break;
                     case "d":
                     case "arrowright":
-                        this.player.xQueue += walkLen;
+                        this.player.xQueue = walkLen;
                         this.player.yQueue = 0;
                         break;
                 }
@@ -77,7 +77,7 @@ class Game {
         let touchendY = 0;
 
         const handleGesture = () => {
-            const walkLen = 10;
+            const walkLen = 2;
 
             let deltaX = touchendX - touchstartX;
             let deltaY = touchendY - touchstartY;
@@ -85,16 +85,16 @@ class Game {
             if (Math.abs(deltaX) > Math.abs(deltaY)) {
                 this.player.yQueue = 0;
                 if (deltaX > 0) {
-                    this.player.xQueue += walkLen;
+                    this.player.xQueue = walkLen;
                 } else {
-                    this.player.xQueue -= walkLen;
+                    this.player.xQueue = -walkLen;
                 }
             } else {
                 this.player.xQueue = 0;
                 if (deltaY > 0) {
-                    this.player.yQueue += walkLen;
+                    this.player.yQueue = walkLen;
                 } else {
-                    this.player.yQueue -= walkLen;
+                    this.player.yQueue = -walkLen;
                 }
             }
 
