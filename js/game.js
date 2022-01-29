@@ -79,27 +79,26 @@ class Game {
         const handleGesture = () => {
             const walkLen = 10;
 
-            if (touchendX < touchstartX) {
-                this.player.xQueue -= walkLen;
+            let deltaX = touchendX - touchstartX;
+            let deltaY = touchendY - touchstartY;
+
+            if (Math.abs(deltaX) > Math.abs(deltaY)) {
                 this.player.yQueue = 0;
-                console.log("touched left");
-            }
-
-            if (touchendX > touchstartX) {
-                this.player.xQueue += walkLen;
-                this.player.yQueue = 0;
-                console.log("touched right");
-            }
-
-            if (touchendY < touchstartY) {
-                this.player.yQueue -= walkLen;
+                if (deltaX > 0) {
+                    this.player.xQueue += walkLen;
+                } else {
+                    this.player.xQueue -= walkLen;
+                }
+            } else {
                 this.player.xQueue = 0;
+                if (deltaY > 0) {
+                    this.player.yQueue += walkLen;
+                } else {
+                    this.player.yQueue -= walkLen;
+                }
             }
 
-            if (touchendY > touchstartY) {
-                this.player.yQueue += walkLen;
-                this.player.xQueue = 0;
-            }
+           
         };
 
         document.body.addEventListener("touchstart", (e) => {

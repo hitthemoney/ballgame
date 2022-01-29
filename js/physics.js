@@ -21,7 +21,7 @@ const moveWithGravity = (dt, o, lockAxis = 0) => {
                     // To avoid division by 0
                     r = 1;
                 }
-                // Compute force for this pair; k = -98 is gravity constant
+                // Compute force for this pa ir; k = -98 is gravity constant
                 let f = (-98 * o1.m * o2.m) / Math.pow(r, 2);
                 let fx = (f * dx) / r; // Break it down into components
                 let fy = (f * dy) / r;

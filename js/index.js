@@ -1,4 +1,3 @@
-import * as physics from "./physics.js";
 import Game from "./game.js";
 
 const canvas = document.getElementById("canvas");
