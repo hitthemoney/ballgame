@@ -35,7 +35,7 @@ const updateLeaderboard = async () => {
     for (let i = 0; i < leaderboard.length; i++) {
         const { name, score, time } = leaderboard[i];
         const modifName = name
-            .slice(0, 18)
+            .slice(0, 16)
             .replace("<", "&lt;")
             .replace(">", "&gt;")
             .replace("&", "&amp;")
