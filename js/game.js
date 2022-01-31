@@ -257,10 +257,10 @@ class Game {
 
         let allObjs = [this.player, ...this.objects];
 
-        physics.moveWithGravity(1 * deltaTime, this.objects);
+        physics.moveWithGravity(2 * deltaTime, this.objects);
         physics.checkEdgeCollision(allObjs, this.canvas);
 
-        let moveLen = 2 * deltaTime;
+        let moveLen = 4 * deltaTime;
 
 
         if (this.player.yQueue > 0) {
