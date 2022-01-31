@@ -1,6 +1,7 @@
 import Game from "./game.js";
 import * as db from "./db.js";
 import { formatTime } from "./consts.js";
+import badwords from "./badwords.js";
 
 const canvas = document.getElementById("canvas");
 canvas.width = window.innerWidth;
@@ -18,7 +19,7 @@ const addToLeaderboardBtn = document.getElementById("addToLeaderboard");
 const addLeaderboardPopup = document.getElementById("addLeaderboardPopup");
 const addLeaderboardBtnDone = document.getElementById("addToLeaderboardDone");
 const leaderboardDiv = document.getElementById("leaderboard");
-
+console.log(badwords)
 const updateLeaderboard = async () => {
     const leaderboard = await db.getLeaderboard();
 
@@ -37,8 +38,10 @@ const updateLeaderboard = async () => {
             .slice(0, 16)
             .replace("<", "&lt;")
             .replace(">", "&gt;")
-            .replace("&", "&amp;");
-            
+            .replace("&", "&amp;")
+            .replace(badwords, a => a[0] + "*".repeat(a.length - 1))
+            .replace(/[^\x00-\x7F]/g, "*");
+
         text += `<tr>
             <td>${i + 1}</td>
             <td>${modifName}</td>
