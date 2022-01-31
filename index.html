@@ -38,6 +38,7 @@
         <meta name="og:site_name" content="" />
         <meta name="og:type" content="website" />
 
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
         <script src="js/index.js" defer type="module"></script>
         <link rel="stylesheet" href="css/main.css" />
     </head>
@@ -51,6 +52,9 @@
             <p class="centeredParagraph" id="bestScore"></p>
             <p class="centeredParagraph">Press space to play again</p>
             <p class="centeredParagraph" style="display: none" id="bestTime"></p>
+            <button id="addToLeaderboard">
+                Add to Leaderboard                
+            </button>
         </div>
 
         <div id="pausedScreen" style="opacity: 0" class="centeredDiv">
@@ -64,9 +68,20 @@
             <span id="timerText">Score: 00:00:00</span>
         </div>
 
-        <div id="mainMenu" style="opacity: 1;" class="centeredDiv">
+        <div id="mainMenu" style="z-index: 1000;" style="opacity: 1;" class="centeredDiv">
             <h1 class="centeredTitle">Ball Game</h1>
             <p class="centeredParagraph">Press space to start</p>
+        </div>
+
+        <div id="addLeaderboardPopup" style="opacity: 0;">
+            <input id="name" maxlength="16" placeholder="Username" />
+            <button id="addToLeaderboardDone">
+                Done             
+            </button>
+        </div>
+
+        <div id="leaderboard">
+            <h3 id="leaderboardTitle">Leaderboard</h3>
         </div>
     </body>
 </html>

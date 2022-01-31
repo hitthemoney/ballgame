@@ -5,8 +5,17 @@ const mainCharacterColor = "#ffbc05";
 const coinImg = new Image();
 coinImg.src = "img/coin.png";
 
+const formatTime = (timeInput) => {
+    const time = new Date(timeInput);
+    const minutes = ("0" + time.getMinutes()).slice(-2);
+    const seconds = ("0" + time.getSeconds()).slice(-2);
+    const ms = Math.round(time.getMilliseconds() / 10);
+    return `${minutes}:${seconds}:${ms}`;
+}
+
 export {
     pastelColors,
     mainCharacterColor,
-    coinImg
+    coinImg,
+    formatTime
 }

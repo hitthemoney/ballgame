@@ -1,5 +1,5 @@
 import * as physics from "./physics.js";
-import { pastelColors, mainCharacterColor, coinImg } from "./consts.js";
+import { pastelColors, mainCharacterColor, coinImg, formatTime } from "./consts.js";
 
 const gameOverDiv = document.getElementById("gameOver");
 const pausedScreenDiv = document.getElementById("pausedScreen");
@@ -236,14 +236,6 @@ class Game {
         }
     }
 
-    formatTime(timeInput) {
-        const time = new Date(timeInput);
-        const minutes = ("0" + time.getMinutes()).slice(-2);
-        const seconds = ("0" + time.getSeconds()).slice(-2);
-        const ms = Math.round(time.getMilliseconds() / 10);
-        return `${minutes}:${seconds}:${ms}`;
-    }
-
     frame() {
         const diffMs = Date.now() - this.lastFrameMs;
 
@@ -251,7 +243,7 @@ class Game {
             this.timeMs += diffMs;
         }
 
-        timerText.innerText = this.formatTime(this.timeMs);
+        timerText.innerText = formatTime(this.timeMs);
 
         this.lastFrameMs = Date.now();
 
@@ -395,7 +387,7 @@ class Game {
             bestTime = this.timeMs;
         }
 
-        // console.log(this.timeMs, bestTime, this.formatTime(bestTime))
+        // console.log(this.timeMs, bestTime, formatTime(bestTime))
 
         localStorage.setItem("ballgame_highscore", bestTime);
 
@@ -411,8 +403,8 @@ class Game {
         localStorage.setItem("ballgame_highscore_coin", bestScore);
 
         gameOverDiv.style.opacity = "1";
-        endTimeText.innerText = "Time: " + this.formatTime(this.timeMs);
-        // bestTimeText.innerText = "Best: " + this.formatTime(bestTime);
+        endTimeText.innerText = "Time: " + formatTime(this.timeMs);
+        // bestTimeText.innerText = "Best: " + formatTime(bestTime);
         bestScoreText.innerText = "Best: " + bestScore;
         endScoreText.innerText = "Score: " + this.coinCount;
         scoresDiv.style.opacity = "0";
