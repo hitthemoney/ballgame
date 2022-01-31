@@ -33,9 +33,15 @@ const updateLeaderboard = async () => {
             
     for (let i = 0; i < leaderboard.length; i++) {
         const { name, score, time } = leaderboard[i];
+        const modifName = name
+            .slice(0, 16)
+            .replace("<", "&lt;")
+            .replace(">", "&gt;")
+            .replace("&", "&amp;");
+            
         text += `<tr>
             <td>${i + 1}</td>
-            <td>${name.slice(0, 16)}</td>
+            <td>${modifName}</td>
             <td>${score}</td>
             <td>${formatTime(time)}</td>
         </tr>`;
@@ -51,12 +57,14 @@ updateLeaderboard();
 let onPopup = false;
 
 let gameStarted = false;
-let gameInstance = new Game(canvas, () => {
+let gameInstance = new Game(canvas, async () => {
     // on game over
     gameStarted = false;
 
     addToLeaderboardBtn.style = "";
     // canvas.style.zIndex = "-1";
+
+    await updateLeaderboard();
 
     leaderboardDiv.style.opacity = "1";
 
@@ -98,12 +106,12 @@ addToLeaderboardBtn.addEventListener("click", (ev) => {
     onPopup = true;
 });
 
-addLeaderboardBtnDone.addEventListener("click", (ev) => {
+addLeaderboardBtnDone.addEventListener("click", async (ev) => {
     const name = document.getElementById("name").value;
     const time = gameInstance.timeMs;
     const score = gameInstance.coinCount;
 
-    db.addToLeaderboard(score, time, name);
+    await db.addToLeaderboard(score, time, name);
 
     addLeaderboardPopup.style.opacity = "0";
     addLeaderboardPopup.style.zIndex = "-1";
@@ -111,4 +119,6 @@ addLeaderboardBtnDone.addEventListener("click", (ev) => {
     onPopup = false;
 
     addToLeaderboardBtn.style = "pointer-events: none; opacity: 0.5;";
+
+    await updateLeaderboard();
 });
