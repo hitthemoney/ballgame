@@ -19,7 +19,7 @@ const addToLeaderboardBtn = document.getElementById("addToLeaderboard");
 const addLeaderboardPopup = document.getElementById("addLeaderboardPopup");
 const addLeaderboardBtnDone = document.getElementById("addToLeaderboardDone");
 const leaderboardDiv = document.getElementById("leaderboard");
-console.log(badwords)
+// console.log(badwords)
 const updateLeaderboard = async () => {
     const leaderboard = await db.getLeaderboard();
 
