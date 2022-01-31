@@ -1,5 +1,5 @@
 import * as physics from "./physics.js";
-import { pastelColors, mainCharacterColor, coinImg, formatTime } from "./consts.js";
+import { pastelColors, mainCharacterColor, coinImg, formatTime, perfectFrameTime } from "./consts.js";
 
 const gameOverDiv = document.getElementById("gameOver");
 const pausedScreenDiv = document.getElementById("pausedScreen");
@@ -239,6 +239,10 @@ class Game {
     frame() {
         const diffMs = Date.now() - this.lastFrameMs;
 
+        const deltaTime = diffMs / perfectFrameTime;
+
+        // console.log(deltaTime);
+
         if (!this.gameOver) {
             this.timeMs += diffMs;
         }
@@ -253,10 +257,11 @@ class Game {
 
         let allObjs = [this.player, ...this.objects];
 
-        physics.moveWithGravity(1, this.objects);
+        physics.moveWithGravity(1 * deltaTime, this.objects);
         physics.checkEdgeCollision(allObjs, this.canvas);
 
-        let moveLen = 2;
+        let moveLen = 2 * deltaTime;
+
 
         if (this.player.yQueue > 0) {
             this.player.y += moveLen;
