@@ -13,3 +13,4 @@ TODO:
 - add coins on the map
 - stuff happens if you hit different colors
 - use delta so it objects do not move faster on higher refresh rates
+- when you lose, make other balls form something like "GG"?

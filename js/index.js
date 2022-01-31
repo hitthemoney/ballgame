@@ -31,7 +31,7 @@ const updateLeaderboard = async () => {
             <th>Score</th>
             <th>Time</th>
             </tr>`;
-            
+
     for (let i = 0; i < leaderboard.length; i++) {
         const { name, score, time } = leaderboard[i];
         const modifName = name
@@ -39,7 +39,7 @@ const updateLeaderboard = async () => {
             .replace("<", "&lt;")
             .replace(">", "&gt;")
             .replace("&", "&amp;")
-            .replace(badwords, a => a[0] + "*".repeat(a.length - 1))
+            .replace(badwords, (a) => a[0] + "*".repeat(a.length - 1))
             .replace(/[^\x00-\x7F]/g, "*");
 
         text += `<tr>
@@ -48,7 +48,7 @@ const updateLeaderboard = async () => {
             <td>${score}</td>
             <td>${formatTime(time)}</td>
         </tr>`;
-    }   
+    }
 
     text += "</table>";
 
@@ -69,8 +69,10 @@ let gameInstance = new Game(canvas, async () => {
 
     await updateLeaderboard();
 
-    leaderboardDiv.style.opacity = "1";
-
+    console.log(gameInstance.gameOver)
+    if (gameInstance.gameOver) {
+        leaderboardDiv.style.opacity = "1";
+    }
 }); // Create a new game instance
 
 const startGame = () => {

@@ -4,6 +4,8 @@ const mainCharacterColor = "#ffbc05";
 
 const perfectFrameTime = 1000 / 60;
 
+const gravitationalConstant = -98;
+
 const coinImg = new Image();
 coinImg.src = "img/coin.png";
 
@@ -20,5 +22,6 @@ export {
     mainCharacterColor,
     coinImg,
     formatTime,
-    perfectFrameTime
+    perfectFrameTime,
+    gravitationalConstant
 }

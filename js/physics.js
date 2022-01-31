@@ -1,3 +1,5 @@
+import { gravitationalConstant } from "./consts.js";
+
 /**
  * @tutorial https://towardsdatascience.com/implementing-2d-physics-in-javascript-860a7b152785
  */
@@ -22,7 +24,7 @@ const moveWithGravity = (dt, o, lockAxis = 0) => {
                     r = 1;
                 }
                 // Compute force for this pa ir; k = -98 is gravity constant
-                let f = (-98 * o1.m * o2.m) / Math.pow(r, 2);
+                let f = (gravitationalConstant * o1.m * o2.m) / Math.pow(r, 2);
                 let fx = (f * dx) / r; // Break it down into components
                 let fy = (f * dy) / r;
                 o1.fx += fx; // Accumulate for first object
@@ -47,7 +49,7 @@ const moveWithGravity = (dt, o, lockAxis = 0) => {
             o1.y += o1.vy * dt; // ...y position
         }
     }
-}
+};
 
 class Collision {
     constructor(o1, o2, dx, dy, d) {
@@ -74,7 +76,7 @@ const checkCollision = (o1, o2) => {
         collisionInfo: null,
         collided: false,
     };
-}
+};
 
 const resolveCollisionWithBounce = (info) => {
     let nx = info.dx / info.d;
@@ -94,7 +96,7 @@ const resolveCollisionWithBounce = (info) => {
     info.o1.vy -= (k * ny) / info.o1.m;
     info.o2.vx += (k * nx) / info.o2.m;
     info.o2.vy += (k * ny) / info.o2.m;
-}
+};
 
 const checkEdgeCollision = (objects, canvas) => {
     for (let obj of objects) {
@@ -126,7 +128,7 @@ const checkEdgeCollision = (objects, canvas) => {
             obj.ay = -obj.ay;
         }
     }
-}
+};
 
 export {
     moveWithGravity,
