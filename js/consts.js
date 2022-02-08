@@ -7,7 +7,7 @@ const perfectFrameTime = 1000 / 60;
 const gravitationalConstant = -98;
 
 const coinImg = new Image();
-coinImg.src = "img/coin.png";
+coinImg.src = "img/coin.svg";
 
 const formatTime = (timeInput) => {
     const time = new Date(timeInput);

@@ -10,6 +10,19 @@ canvas.height = window.innerHeight;
 window.addEventListener("resize", () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+
+    const addedHeight = canvas.height + canvas.width;
+    const ballCount = (Math.floor((addedHeight / (gameInstance.player.r * 2)) / 2)) - gameInstance.objects.length;
+    console.log(ballCount)
+    for (let i = 0; i < ballCount; i++) {
+        gameInstance.addObject(15);
+    };
+
+    if (ballCount < 0) {
+        for (let i = 0; i < Math.abs(ballCount); i++) {
+            gameInstance.removeObject();
+        };
+    }
 });
 
 const mainMenu = document.getElementById("mainMenu");

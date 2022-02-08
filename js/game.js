@@ -178,7 +178,12 @@ class Game {
             for (let i = 0; i < 3; i++) {
                 this.addCoin();
             }
-            for (let i = 0; i < 30; i++) {
+
+            const addedHeight = this.canvas.height + this.canvas.width;
+            const ballCount = Math.floor((addedHeight / (this.player.r * 2)) / 2);
+            
+            console.log(ballCount)
+            for (let i = 0; i < ballCount ; i++) {
                 this.addObject(15); // Add an object to the game
             }
         }, 1000);
@@ -198,9 +203,22 @@ class Game {
     }
 
     addObject(radius = 20) {
+
+        // set x and y to a random position but it cannot touch the player
+        let x = Math.random() * this.canvas.width;
+        let y = Math.random() * this.canvas.height;
+        
+        while (
+            Math.abs(x - this.player.x) < radius * 2 &&
+            Math.abs(y - this.player.y) < radius * 2
+        ) {
+            x = Math.random() * this.canvas.width;
+            y = Math.random() * this.canvas.height;
+        }
+
         this.objects.push({
-            x: Math.random() * this.canvas.width,
-            y: Math.random() * this.canvas.height,
+            x,
+            y,
             ...this.initStartingPhysics(),
             // vx: 0,
             // vy: 0,
@@ -215,6 +233,10 @@ class Game {
         });
     }
 
+    removeObject() {
+        this.objects.pop();
+    }
+
     initStartingPhysics() {
         return {
             vx: 1 * Math.random(),
@@ -227,6 +249,7 @@ class Game {
 
     togglePlay() {
         this.playing = !this.playing;
+        
         if (this.playing) {
             pausedScreenDiv.style.opacity = "0";
             this.lastFrameMs = Date.now();
