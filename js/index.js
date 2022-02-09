@@ -48,11 +48,11 @@ const updateLeaderboard = async () => {
     for (let i = 0; i < leaderboard.length; i++) {
         const { name, score, time } = leaderboard[i];
         const modifName = name
-            .slice(0, 22)
-            .replace("<", "&lt;")
-            .replace(">", "&gt;")
-            .replace("&", "&amp;")
-            .replace("'", "&apos;")
+            .slice(0, 16)
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/&/g, "&amp;")
+            .replace(/'/g, "&apos;")
             .replace(badwords, (a) => a[0] + "*".repeat(a.length - 1))
             .replace(/[^\x00-\x7F]/g, "*");
 
