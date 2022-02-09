@@ -49,9 +49,9 @@ const updateLeaderboard = async () => {
         const { name, score, time } = leaderboard[i];
         const modifName = name
             .slice(0, 16)
+            .replace(/&/g, "&amp;")
             .replace(/</g, "&lt;")
             .replace(/>/g, "&gt;")
-            .replace(/&/g, "&amp;")
             .replace(/'/g, "&apos;")
             .replace(badwords, (a) => a[0] + "*".repeat(a.length - 1))
             .replace(/[^\x00-\x7F]/g, "*");
