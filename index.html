@@ -51,10 +51,12 @@
             <p class="centeredParagraph" id="endScore"></p>
             <p class="centeredParagraph" id="bestScore"></p>
             <p class="centeredParagraph">Press space to play again</p>
-            <p class="centeredParagraph" style="display: none" id="bestTime"></p>
-            <button id="addToLeaderboard">
-                Add to Leaderboard                
-            </button>
+            <p
+                class="centeredParagraph"
+                style="display: none"
+                id="bestTime"
+            ></p>
+            <button id="addToLeaderboard">Add to Leaderboard</button>
         </div>
 
         <div id="pausedScreen" style="opacity: 0" class="centeredDiv">
@@ -62,26 +64,40 @@
             <p class="centeredParagraph">Press space to resume</p>
         </div>
 
-        <div id="scores" style="opacity: 0" >
-            <span id="coins"><img src="img/coin.svg" width="30" height="30">&nbsp;<span id="coinScore">0</span></span>
+        <div id="scores" style="opacity: 0">
+            <span id="coins"
+                ><img src="img/coin.svg" width="30" height="30" />&nbsp;<span
+                    id="coinScore"
+                    >0</span
+                ></span
+            >
             <br />
             <span id="timerText">Score: 00:00:00</span>
         </div>
 
-        <div id="mainMenu" style="z-index: 1000;" style="opacity: 1;" class="centeredDiv">
+        <div
+            id="mainMenu"
+            style="z-index: 1000"
+            style="opacity: 1"
+            class="centeredDiv"
+        >
             <h1 class="centeredTitle">Ball Game</h1>
             <p class="centeredParagraph">Press space to start</p>
         </div>
 
-        <div id="addLeaderboardPopup" style="opacity: 0;">
+        <div id="addLeaderboardPopup" style="opacity: 0">
             <input id="name" maxlength="16" placeholder="Username" />
-            <button id="addToLeaderboardDone">
-                Done             
-            </button>
+            <button id="addToLeaderboardDone">Done</button>
         </div>
 
         <div id="leaderboard">
             <h3 id="leaderboardTitle">Leaderboard</h3>
+        </div>
+
+        <div id="socialLinks" style="z-index: 2500">
+            <a target="_blank" href="https://discord.gg/GqApD4sB3F">
+                <img src="./img/discord_logo_blurple.svg" width="100" />
+            </a>
         </div>
     </body>
 </html>

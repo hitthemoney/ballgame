@@ -10,6 +10,7 @@ const scoresDiv = document.getElementById("scores");
 const coinsText = document.getElementById("coinScore");
 const bestScoreText = document.getElementById("bestScore");
 const endScoreText = document.getElementById("endScore");
+const socialLinks = document.getElementById("socialLinks");
 
 class Game {
     constructor(canvas, gameOverCallback) {
@@ -153,6 +154,8 @@ class Game {
         this.coinCount = 0;
         coinsText.innerText = this.coinCount;
 
+        socialLinks.classList.add("hidden");
+
         this.player = {
             x: canvas.width / 2,
             y: canvas.height / 2,
@@ -252,10 +255,12 @@ class Game {
         
         if (this.playing) {
             pausedScreenDiv.style.opacity = "0";
+            socialLinks.classList.add("hidden");
             this.lastFrameMs = Date.now();
             this.frame();
         } else {
             pausedScreenDiv.style.opacity = "1";
+            socialLinks.classList.remove("hidden");
         }
     }
 
@@ -436,6 +441,8 @@ class Game {
         bestScoreText.innerText = "Best: " + bestScore;
         endScoreText.innerText = "Score: " + this.coinCount;
         scoresDiv.style.opacity = "0";
+
+        socialLinks.classList.remove("hidden");
 
         this.gameOverCallback();
 

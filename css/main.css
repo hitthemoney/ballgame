@@ -154,3 +154,24 @@ button {
         font-size: 15px;
     }
 }
+
+#socialLinks {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+a {
+    color: rgb(0, 51, 255);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+    z-index: -1;
+}
