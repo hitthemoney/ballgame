@@ -168,7 +168,7 @@ class Game {
             powerUp.active = false;
             powerUp.last = Date.now();
             if (powerUp.powerUpTimeout) {
-                clearTimeout(powerUpTimeout);
+                clearTimeout(powerUp.powerUpTimeout);
             }
         });
         
