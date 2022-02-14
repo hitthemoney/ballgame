@@ -17,11 +17,14 @@ const formatTime = (timeInput) => {
     return `${minutes}:${seconds}:${ms}`;
 }
 
+const ballSpeed = 1.5;
+
 export {
     pastelColors,
     mainCharacterColor,
     coinImg,
     formatTime,
     perfectFrameTime,
-    gravitationalConstant
+    gravitationalConstant,
+    ballSpeed
 }
