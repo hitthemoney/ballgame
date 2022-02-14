@@ -1,5 +1,13 @@
 import * as physics from "./physics.js";
-import { ballSpeed, pastelColors, mainCharacterColor, coinImg, formatTime, perfectFrameTime } from "./consts.js";
+import {
+    ballSpeed,
+    pastelColors,
+    mainCharacterColor,
+    coinImg,
+    formatTime,
+    perfectFrameTime,
+    powerUps,
+} from "./consts.js";
 
 const gameOverDiv = document.getElementById("gameOver");
 const pausedScreenDiv = document.getElementById("pausedScreen");
@@ -36,6 +44,8 @@ class Game {
 
         this.coinCount = 0;
         coinsText.innerText = this.coinCount;
+
+        this.powerUps = powerUps;
 
         window.addEventListener("keydown", (event) => {
             if (!this.gameOver && event.key === " ") {
@@ -98,8 +108,6 @@ class Game {
                     this.player.yQueue = -walkLen;
                 }
             }
-
-           
         };
 
         document.body.addEventListener("touchstart", (e) => {
@@ -156,6 +164,14 @@ class Game {
 
         socialLinks.classList.add("hidden");
 
+        powerUps.forEach((powerUp) => {
+            powerUp.active = false;
+            powerUp.last = Date.now();
+            if (powerUp.powerUpTimeout) {
+                clearTimeout(powerUpTimeout);
+            }
+        });
+        
         this.player = {
             x: canvas.width / 2,
             y: canvas.height / 2,
@@ -183,10 +199,10 @@ class Game {
             }
 
             const addedHeight = this.canvas.height + this.canvas.width;
-            const ballCount = Math.floor((addedHeight / (this.player.r * 2)) / 2);
-            
-            console.log(ballCount)
-            for (let i = 0; i < ballCount ; i++) {
+            const ballCount = Math.floor(addedHeight / (this.player.r * 2) / 2);
+
+            console.log(ballCount);
+            for (let i = 0; i < ballCount; i++) {
                 this.addObject(15); // Add an object to the game
             }
         }, 1000);
@@ -195,9 +211,9 @@ class Game {
         let interval = setInterval(() => {
             // console.log("lol", this.timeMs)
             this.blinking = !this.blinking;
-            if (this.timeMs > 3000 && !isNaN(this.timeMs)) clearInterval(interval);
+            if (this.timeMs > 3000 && !isNaN(this.timeMs))
+                clearInterval(interval);
         }, 300);
-
 
         // .forEach((obj) => {
         //     obj.x = Math.random() * this.canvas.width;
@@ -206,11 +222,10 @@ class Game {
     }
 
     addObject(radius = 20) {
-
         // set x and y to a random position but it cannot touch the player
         let x = Math.random() * this.canvas.width;
         let y = Math.random() * this.canvas.height;
-        
+
         while (
             Math.abs(x - this.player.x) < radius * 2 &&
             Math.abs(y - this.player.y) < radius * 2
@@ -252,7 +267,7 @@ class Game {
 
     togglePlay() {
         this.playing = !this.playing;
-        
+
         if (this.playing) {
             pausedScreenDiv.style.opacity = "0";
             socialLinks.classList.add("hidden");
@@ -281,15 +296,33 @@ class Game {
 
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
+        powerUps.forEach((powerUp) => {
+            if (!powerUp.active && !powerUp.onMap) {
+                if (Math.random() < 0.001 && Date.now() - powerUp.last > 7500) {
+                    powerUp.onMap = true;
+                    powerUp.x = Math.min(
+                        Math.max(50, Math.random() * this.canvas.width),
+                        this.canvas.width - 50
+                    );
+                    powerUp.y = Math.min(
+                        Math.max(50, Math.random() * this.canvas.height),
+                        this.canvas.height - 50
+                    );
+                }
+            }
+        });
+
         // this.ctx.fillRect(this.frameCount % window.innerWidth, this.frameCount % window.innerHeight, 100, 100);
 
         let allObjs = [this.player, ...this.objects];
 
-        physics.moveWithGravity(ballSpeed * deltaTime, this.objects);
+        let objectMoveLen = ballSpeed * deltaTime;
+        if (this.powerUps.find((x) => x.name === "sloMo").active) objectMoveLen /= 4;
+
+        physics.moveWithGravity(objectMoveLen, this.objects);
         physics.checkEdgeCollision(allObjs, this.canvas);
 
-        let moveLen = (ballSpeed * 2) * deltaTime;
-
+        let moveLen = ballSpeed * 2 * deltaTime;
 
         if (this.player.yQueue > 0) {
             this.player.y += moveLen;
@@ -335,7 +368,11 @@ class Game {
             this.ctx.strokeStyle = "rgba(0, 0, 0, 0.25)";
             this.ctx.fillStyle = obj.color;
 
-            if (obj.isPlayer && this.blinking && (this.timeMs < 3000 || isNaN(this.timeMs))) {
+            if (
+                obj.isPlayer &&
+                this.blinking &&
+                (this.timeMs < 3000 || isNaN(this.timeMs))
+            ) {
                 this.ctx.globalAlpha = 0.5;
             } else {
                 this.ctx.globalAlpha = 1;
@@ -366,9 +403,23 @@ class Game {
             );
         }
 
+        const modifPowerUps = powerUps.filter((powerUp) => powerUp.onMap);
+
+        for (let powerUp of modifPowerUps) {
+            this.ctx.drawImage(
+                powerUp.img,
+                powerUp.x - powerUp.r,
+                powerUp.y - powerUp.r,
+                powerUp.r * 2,
+                powerUp.r * 2
+            );
+        }
+
+        const otherAllObjs = [...modifCoins, ...allObjs, ...modifPowerUps];
+
         let collisions = [];
-        for (let [i, o1] of [...modifCoins, ...allObjs].entries()) {
-            for (let [j, o2] of [...modifCoins, ...allObjs].entries()) {
+        for (let [i, o1] of otherAllObjs.entries()) {
+            for (let [j, o2] of otherAllObjs.entries()) {
                 if (i < j) {
                     let { collisionInfo, collided } = physics.checkCollision(
                         o1,
@@ -382,12 +433,15 @@ class Game {
         }
 
         for (let col of collisions) {
-            if (!col.o1.isCoin && !col.o2.isCoin) {
+            if (!col.o1.isCoin && !col.o2.isCoin && !col.o1.isPowerUp && !col.o2.isPowerUp) {
                 physics.resolveCollisionWithBounce(col);
             }
             if (col.o1.isPlayer || col.o2.isPlayer) {
                 if (col.o1.isCoin || col.o2.isCoin) {
                     this.onCoinTouch(col.o1.isCoin ? col.o1 : col.o2);
+                } else if (col.o1.isPowerUp || col.o2.isPowerUp) {
+                    console.log("power up");
+                    (col.o1.isPowerUp ? col.o1 : col.o2).onActivate(this);
                 } else if (!(this.timeMs < 3000 || isNaN(this.timeMs))) {
                     if (!this.gameOver) {
                         this.lose();
