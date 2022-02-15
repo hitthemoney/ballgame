@@ -168,7 +168,7 @@ class Game {
             powerUp.active = false;
             powerUp.last = Date.now();
             if (powerUp.powerUpTimeout) {
-                clearTimeout(powerUp.powerUpTimeout);
+                clepowerUpTimeoutrTimeout(powerUp.powerUpTimeout);
             }
         });
         
@@ -524,6 +524,7 @@ class Game {
         this.coinQueues.push(
             setTimeout(() => {
                 this.addCoin();
+                this.coinQueues.pop();
             }, 5000 * Math.random())
         );
     }
