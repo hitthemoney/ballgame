@@ -281,7 +281,11 @@ class Game {
     }
 
     frame() {
-        const diffMs = Date.now() - this.lastFrameMs;
+        let diffMs = Date.now() - this.lastFrameMs;
+
+        if (diffMs > 1000) {
+            diffMs = 60;
+        }
 
         const deltaTime = diffMs / perfectFrameTime;
 
@@ -299,7 +303,7 @@ class Game {
 
         powerUps.forEach((powerUp) => {
             if (!powerUp.active && !powerUp.onMap) {
-                if (Math.random() < 0.001 && Date.now() - powerUp.last > 7500) {
+                if (this.coinCount >= 5 && Math.random() < 0.001 && Date.now() - powerUp.last > 7500) {
                     powerUp.onMap = true;
                     powerUp.x = Math.min(
                         Math.max(50, Math.random() * this.canvas.width),
