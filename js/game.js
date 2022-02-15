@@ -166,6 +166,7 @@ class Game {
 
         powerUps.forEach((powerUp) => {
             powerUp.active = false;
+            powerUp.onMap = false;
             powerUp.last = Date.now();
             if (powerUp.powerUpTimeout) {
                 clepowerUpTimeoutrTimeout(powerUp.powerUpTimeout);
