@@ -169,7 +169,7 @@ class Game {
             powerUp.onMap = false;
             powerUp.last = Date.now();
             if (powerUp.powerUpTimeout) {
-                clepowerUpTimeoutrTimeout(powerUp.powerUpTimeout);
+                clearTimeout(powerUp.powerUpTimeout);
             }
         });
         
