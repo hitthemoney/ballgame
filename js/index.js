@@ -12,16 +12,18 @@ window.addEventListener("resize", () => {
     canvas.height = window.innerHeight;
 
     const addedHeight = canvas.height + canvas.width;
-    const ballCount = (Math.floor((addedHeight / (gameInstance.player.r * 2)) / 2)) - gameInstance.objects.length;
-    console.log(ballCount)
+    const ballCount =
+        Math.floor(addedHeight / (gameInstance.player.r * 2) / 2) -
+        gameInstance.objects.length;
+    console.log(ballCount);
     for (let i = 0; i < ballCount; i++) {
         gameInstance.addObject(15);
-    };
+    }
 
     if (ballCount < 0) {
         for (let i = 0; i < Math.abs(ballCount); i++) {
             gameInstance.removeObject();
-        };
+        }
     }
 });
 
@@ -83,7 +85,7 @@ let gameInstance = new Game(canvas, async () => {
 
     await updateLeaderboard();
 
-    console.log(gameInstance.gameOver)
+    console.log(gameInstance.gameOver);
     if (gameInstance.gameOver) {
         leaderboardDiv.style.opacity = "1";
     }
@@ -120,9 +122,14 @@ window.addEventListener("touchstart", (event) => {
 });
 
 addToLeaderboardBtn.addEventListener("click", (ev) => {
-    addLeaderboardPopup.style.opacity = "1";
-    addLeaderboardPopup.style.zIndex = "3000";
-    onPopup = true;
+    console.log(gameInstance.coinCount)
+    if (gameInstance.coinCount > 250) {
+        alert("You reached the maximum score allowed on the leaderboard. Please take a screenshot of your score and join the discord for manual review.")
+    } else {
+        addLeaderboardPopup.style.opacity = "1";
+        addLeaderboardPopup.style.zIndex = "3000";
+        onPopup = true;
+    }
 });
 
 addLeaderboardBtnDone.addEventListener("click", async (ev) => {
