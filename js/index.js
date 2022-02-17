@@ -102,7 +102,7 @@ const startGame = () => {
 
     gameInstance.start(); // Start the game
 
-    window.gameInstance = gameInstance;
+    // window.gameInstance = gameInstance;
 };
 
 window.addEventListener("keydown", (event) => {
