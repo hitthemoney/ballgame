@@ -1,6 +1,6 @@
 const PUBLIC_KEY =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhtZ25wb3h6bm91eGx0ZGNkY3hlIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NDUxMjA0MTUsImV4cCI6MTk2MDY5NjQxNX0.9xG_n9LSqtT8Y1KSOrcjBiuDMWWPKzGACl5QJNw2im0";
-const URL = "https://xmgnpoxznouxltdcdcxe.supabase.co";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlzY2RsZ2Fvc2V3bXBibHlzcWx6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NDYwODI1ODQsImV4cCI6MTk2MTY1ODU4NH0.VdsXGKDJ2UzdJAbrOfqrp_BEH7CFv7sSSPKIIC0rzfk";
+const URL = "https://iscdlgaosewmpblysqlz.supabase.co";
 
 const { createClient } = supabase;
 const _supabase = createClient(URL, PUBLIC_KEY);
