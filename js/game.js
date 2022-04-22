@@ -478,7 +478,7 @@ class Game {
         } else if (this.timeMs > bestTime) {
             bestTime = this.timeMs;
         }
-
+        
         // console.log(this.timeMs, bestTime, formatTime(bestTime))
 
         localStorage.setItem("ballgame_highscore", bestTime);
@@ -517,7 +517,7 @@ class Game {
         //     this.canvas.height / 2
         // );
 
-        // window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+        window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
     }
 
     onCoinTouch(coin) {
