@@ -477,7 +477,10 @@ class Game {
             bestTime = this.timeMs;
         } else if (this.timeMs > bestTime) {
             bestTime = this.timeMs;
+        if gameOver = true 
+        print('GG!')
         }
+        
 
         // console.log(this.timeMs, bestTime, formatTime(bestTime))
 
